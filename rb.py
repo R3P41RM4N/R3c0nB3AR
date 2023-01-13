@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 
 #note for self: import colorama, import http lib
@@ -63,14 +62,9 @@ site = str(raw_site_input).strip()
 raw_port_input = input(colored('and which ports would you like to scan today?[separate each port by a ","]\n >>', "white"))
 port = str(raw_port_input).strip()
 
-logpath = f"logs/{date.isoformat(date.today()).replace('-',' ')}_{site}.log"
-
-#establish burp connection
 
 proxies = {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"}
 r = requests.get(f"https://{site}", proxies=proxies, verify=False)
-
-print(colored("\nInitiating Recon Scan\n", "red"))
 
 def format_text(title,item):
 	cr = '\r\n'
@@ -79,8 +73,15 @@ def format_text(title,item):
 	text = Style.BRIGHT + Fore.RED + title + Fore.RESET + section_break + item + section_break
 	return text;
 
+logpath = f"logs/{date.isoformat(date.today()).replace('-',' ')}_{site}.log"
+with open(logpath, 'w') as f:
+
+	f.write(colored("\nInitiating Recon Scan\n\n\n", "red"))
+	f.write("the following are the results of your scan conducted on {date.isoformat(date.today()).replace('-',' ')}")
+#establish burp connection
+
  #headers Scan functions
-headers = r.headers
+	headers = r.headers
 
  #cookies scan functions
 
@@ -92,78 +93,77 @@ headers = r.headers
  #sCookies = r.cookies
 
  #scans to be performed:
-cmds =[
-	#f"nmap -p 80,443,3389 --script http-bigip-cookie {site}",
-	#f"nmap -p 80,443,3389 --script http-headers {site}",
-	#f"nmap -p 80,443,3389 --script http-security-headers {site}",
-	#f"nmap -p 139,145 --script=smb-vuln* {site}",
-	# f"nmap -vv -p 139,145 --script=smb-server-stats.nse {site}",
-	# f"nmap -vv -p 139,145 --script=smb-brute.nse {site}",
-	#f"nmap -vv -p 139,145 --script=smb-double-pulsar-backdoor.nse {site}",
-	f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
-	f"nmap -Pn -sC -T4 --reason {site}",
-	f"nmap -p {port} --script http-auth, {site}",
-	f"nmap -p {port} --script http-auth-finder, {site}",
-	f"nmap -p {port} --script http-ntlm-info {site}"
-	f"nmap -p {port} --script http-aspnet-debug {site}",
-	f"nmap -p {port} --script http-stored-xss {site}",
-	f"nmap -p {port} --script http-methods {site}",
-	f"nmap -vv -sT -A -sV --reason --script=http-enum {site}",
-	f"nmap -vv -p 139,145 --script=smb-enum* {site}",
-	f"nmap -vv -p 139,145 --script=smb-os-discovery.nse {site}",
-	f"nmap -vv -p {port} --script=http-sitemap-generator.nse {site}",
-	f"nikto -p {port} -h {site}",
-	f"hping3 -S {site} -c 15 -p {port}", #note to research this function further
-	f"curl -k https://{site}/images",
-	f"curl -k https://{site}/Images",
-	f"curl -svk https://{site}/asdf",
-	f"dirb https://{site}/ /usr/share/wordlists/SecLists/Discovery/Web_Content/Top500-RobotsDisallowed.txt -S -l",
-	f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
-	f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
-	f"nmap -vv -sU -p-  {site}", 
-	f"nmap -vv -sT -p-  {site}"
-    ]
-        #This should be run first and the open ports used as input for the rest of the program. Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
-			
+	cmds =[
+		#f"nmap -p 80,443,3389 --script http-bigip-cookie {site}",
+		#f"nmap -p 80,443,3389 --script http-headers {site}",
+		#f"nmap -p 80,443,3389 --script http-security-headers {site}",
+		#f"nmap -p 139,145 --script=smb-vuln* {site}",
+		# f"nmap -vv -p 139,145 --script=smb-server-stats.nse {site}",
+		# f"nmap -vv -p 139,145 --script=smb-brute.nse {site}",
+		#f"nmap -vv -p 139,145 --script=smb-double-pulsar-backdoor.nse {site}",
+		f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
+		f"nmap -Pn -sC -T4 --reason {site}",
+		f"nmap -p {port} --script http-auth, {site}",
+		f"nmap -p {port} --script http-auth-finder, {site}",
+		f"nmap -p {port} --script http-ntlm-info {site}",
+		f"nmap -p {port} --script http-aspnet-debug {site}",
+		f"nmap -p {port} --script http-stored-xss {site}",
+		f"nmap -p {port} --script http-methods {site}",
+		f"nmap -vv -sT -A -sV --reason --script=http-enum {site}",
+		f"nmap -vv -p 139,145 --script=smb-enum* {site}",
+		f"nmap -vv -p 139,145 --script=smb-os-discovery.nse {site}",
+		f"nmap -vv -p {port} --script=http-sitemap-generator.nse {site}",
+		f"nikto -p {port} -h {site}",
+		f"hping3 -S {site} -c 15 -p {port}", #note to research this function further
+		f"curl -k https://{site}/images",
+		f"curl -k https://{site}/Images",
+		f"curl -svk https://{site}/asdf",
+		f"dirb https://{site}/ /usr/share/wordlists/SecLists/Discovery/Web_Content/Top500-RobotsDisallowed.txt -S -l",
+		f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
+		f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
+		f"nmap -vv -sU -p-  {site}", 
+		f"nmap -vv -sT -p-  {site}"
+	    ]
+	        #This should be run first and the open ports used as input for the rest of the program. Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
+				
 
- #recording information and 'for loop'
+	 #recording information and 'for loop'
+	f.write(format_text('r.status_code is: ',r.status_code))
+	#print(format_text('r.headers is: ',r.headers)), #expiriment with a for loop for formatting
+	f.write(format_text('r.cookies is: ',r.cookies)), #build in a session cookie request
+	f.write(format_text('r.text is: ',r.text)),
 
-with open(logpath, 'w') as f:
-    print(format_text('r.status_code is: ',r.status_code))
-    #print(format_text('r.headers is: ',r.headers)), #expiriment with a for loop for formatting
-    print(format_text('r.cookies is: ',r.cookies)), #build in a session cookie request
-    print(format_text('r.text is: ',r.text)),
+	f.write(colored("\n\nHEADERS\n\n", "cyan", attrs=["bold"]))
 
-    print(colored("\n\nHEADERS\n\n", "cyan", attrs=["bold"]))
-
-    for header in headers:
-        if (header.upper() == 'CONTENT-SECURITY-POLICY'):
-            csp = headers[header].split(";")
-            print(format_text('Content Security Policy Headers are: ', header))
-            for c in csp:
-                print(f"\t{c}")
-        else:
-            print(f"{header} : {headers[header]}")
-    
+	for header in headers:
+	    if (header.upper() == 'CONTENT-SECURITY-POLICY'):
+	        csp = headers[header].split(";")
+	        f.write(format_text('Content Security Policy Headers are: ', header))
+	        for c in csp:
+	            f.write(f"\t{c}")
+	    else:
+	        f.write(f"{header} : {headers[header]}")
+	    
 
 
 
-       # print(format_text('r.cookies is: ',r.cookies))
-       # print(format_text('r.text is: ',r.text))
-   #  for sCookie in sCookies:
-       #   print('sCookie name : '+sCookie.name)
-       #   print('sCookie value : '+sCookie.value)
+	       # print(format_text('r.cookies is: ',r.cookies))
+	       # print(format_text('r.text is: ',r.text))
+	   #  for sCookie in sCookies:
+	       #   print('sCookie name : '+sCookie.name)
+	       #   print('sCookie value : '+sCookie.value)
 
-  #  for cookie in resp.cookies:
-        #  print('cookie name : ',[cookie.name](http://cookie.name/))
-         # print('cookie value : ',cookie.value)
+	  #  for cookie in resp.cookies:
+	        #  print('cookie name : ',[cookie.name](http://cookie.name/))
+	         # print('cookie value : ',cookie.value)
 
-    for cmd in cmds:
-        print(f"\n\n Running: {cmd}")
-        map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-        output, err = map.communicate()
-        output = output.decode('ascii')
-        print(output)
-        f.write(f"\n\n(Complete:,{cmd}\n,{output}\n")
-        f.write(f"--------------------------------------")
-print(colored('**Scan Complete**','green'))
+	for cmd in cmds:
+	    f.write(f"\n\n Running: {cmd}")
+	    map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+	    output, err = map.communicate()
+	    output = output.decode('ascii')
+	    f.write(output)
+	    f.write(f"\n\n(Complete:,{cmd}\n,{output}\n")
+	    f.write(f"--------------------------------------")
+
+	f.write(colored('**Scan Complete**','green'))

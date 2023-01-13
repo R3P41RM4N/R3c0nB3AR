@@ -10,6 +10,9 @@ It's connecting to burp now and I think we're close to just tweaking it for basi
 
 One of my friends suggested using a wordpress app, nuclei, and maybe something else for a common web application as well. I'm just spitballing here.
 
+"fx — Today at 4:31 PM
+Give it a Wordpress app that has xmlrpc enabled (default) I think."
+
 
 From my perspective initial release criteria would look something like this:
   1. Port Enumeration

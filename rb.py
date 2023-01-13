@@ -52,7 +52,7 @@ MMMMMMWXOkxxollllc;cxKMNd',clllc:xNMMMMM
 MMMMMMNd;,;::cccc::dO00kx:':lll:;xMMMMMM
 MMMMMMMN0kxkO0KXK0Kxc;,,,,'',;,.'kMMMMMM
 MMMMMMMMMMMMMMMMMMWOoc,......'',dNMMMMMM''',"green", attrs=["bold"]))
-art3=(colored("created by r3p41rm4n", "green", attrs=["bold"]))
+art3=(colored("created by r3p41rm4n and bwalvarado", "green", attrs=["bold"]))
 print(art1)
 print(art2)
 print(art3+"\n\n\n")

@@ -63,12 +63,14 @@ port = str(raw_port_input).strip()
 proxies = {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"}
 #define r = get requests
 r = requests.get(f"https://{site}", proxies=proxies, verify=False)
+
 def format_text(title,item): #this is an autoformating feature for HTTP resposne data
     cr = '\r\n'
     section_break = cr + "*"*40 + cr
     item = str(item)
     text = Style.BRIGHT + Fore.GREEN + title + Fore.RESET + section_break + item + section_break
     return text;
+
 def text_header(respd):
     cr = '\r\n'
     section_break = cr + "*"*40
@@ -77,65 +79,67 @@ def text_header(respd):
     return text;
 #Opening for the log path
 logpath = f"logs/{date.isoformat(date.today()).replace('-',' ')}_{site}.log"
+
 with open(logpath, 'w') as f:
     f.write(colored("\nInitiating Recon Scan\n\n\n", "green"))
     print(colored("\nInitiating Recon Scan\n\n\n", "green"))
-  #headers Scan functions
+    #headers Scan functions
     headers = r.headers
- #cookies scan functions
- #response = requests.get(f"https://{site}")
- #cookies = response.cookies
- #s = requests.Session()
- #r = s.get(f"https://{site}")
- #sCookies = r.cookies
+    #cookies scan functions
+    #response = requests.get(f"https://{site}")
+    #cookies = response.cookies
+    #s = requests.Session()
+    #r = s.get(f"https://{site}")
+    #sCookies = r.cookies
 #scans to be performed:
-    cmds =[
-        #f"nmap -p 80,443,3389 --script http-bigip-cookie {site}",
-        #f"nmap -p 80,443,3389 --script http-headers {site}",
-        #f"nmap -p 80,443,3389 --script http-security-headers {site}",
-        #f"nmap -p 139,145 --script=smb-vuln* {site}",
-        # f"nmap -vv -p 139,145 --script=smb-server-stats.nse {site}",
-        # f"nmap -vv -p 139,145 --script=smb-brute.nse {site}",
-        #f"nmap -vv -p 139,145 --script=smb-double-pulsar-backdoor.nse {site}",
-        f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
-        f"nmap -Pn -sC -T4 --reason {site}",
-        f"nmap -p {port} --script http-auth, {site}",
-        f"nmap -p {port} --script http-auth-finder, {site}",
-        f"nmap -p {port} --script http-ntlm-info {site}",
-        f"nmap -p {port} --script http-aspnet-debug {site}",
-        f"nmap -p {port} --script http-stored-xss {site}",
-        f"nmap -p {port} --script http-methods {site}",
-        f"nmap -vv -sT -A -sV --reason --script=http-enum {site}",
-        f"nmap -vv -p 139,145 --script=smb-enum* {site}",
-        f"nmap -vv -p 139,145 --script=smb-os-discovery.nse {site}",
-        f"nmap -vv -p {port} --script=http-sitemap-generator.nse {site}",
-        f"nikto -p {port} -h {site}",
-        f"hping3 -S {site} -c 15 -p {port}", #note to research this function further
-        f"curl -k https://{site}/images",
-        f"curl -k https://{site}/Images",
-        f"curl -svk https://{site}/asdf",
-        f"dirb https://{site}/ /usr/share/wordlists/SecLists/Discovery/Web_Content/Top500-RobotsDisallowed.txt -S -l",
-        f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
-        f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
-        f"nmap -vv -sU -p-  {site}", 
-        f"nmap -vv -sT -p-  {site}"
-        ]
-            #Future looks like complete scan first and designate variables based on open ports 
-            #Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
-    f.write(format_text('Response status_code is: ',r.status_code))
-    print(format_text('Response status_code is: ',r.status_code))
-    #f.write(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
-    #print(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
-    f.write(text_header('The Headers returned are: '))
-    print(text_header('The Headers returned are: '))
-    for header in headers:
-        if (header.upper() == 'CONTENT-SECURITY-POLICY'):
-            csp = headers[header].split(";")
-            f.write(format_text('', header))
-            print(format_text('', header))
-            for c in csp:
-                f.write(f"\t{c}")
-                print(f"\t{c}")
+cmds =[
+    #f"nmap -p 80,443,3389 --script http-bigip-cookie {site}",
+    #f"nmap -p 80,443,3389 --script http-headers {site}",
+    #f"nmap -p 80,443,3389 --script http-security-headers {site}",
+    #f"nmap -p 139,145 --script=smb-vuln* {site}",
+    # f"nmap -vv -p 139,145 --script=smb-server-stats.nse {site}",
+    # f"nmap -vv -p 139,145 --script=smb-brute.nse {site}",
+    #f"nmap -vv -p 139,145 --script=smb-double-pulsar-backdoor.nse {site}",
+    f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
+    f"nmap -Pn -sC -T4 --reason {site}",
+    f"nmap -p {port} --script http-auth, {site}",
+    f"nmap -p {port} --script http-auth-finder, {site}",
+    f"nmap -p {port} --script http-ntlm-info {site}",
+    f"nmap -p {port} --script http-aspnet-debug {site}",
+    f"nmap -p {port} --script http-stored-xss {site}",
+    f"nmap -p {port} --script http-methods {site}",
+    f"nmap -vv -sT -A -sV --reason --script=http-enum {site}",
+    f"nmap -vv -p 139,145 --script=smb-enum* {site}",
+    f"nmap -vv -p 139,145 --script=smb-os-discovery.nse {site}",
+    f"nmap -vv -p {port} --script=http-sitemap-generator.nse {site}",
+    f"nikto -p {port} -h {site}",
+    f"hping3 -S {site} -c 15 -p {port}", #note to research this function further
+    f"curl -k https://{site}/images",
+    f"curl -k https://{site}/Images",
+    f"curl -svk https://{site}/asdf",
+    f"dirb https://{site}/ /usr/share/wordlists/SecLists/Discovery/Web_Content/Top500-RobotsDisallowed.txt -S -l",
+    f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
+    f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
+    f"nmap -vv -sU -p-  {site}",
+    f"nmap -vv -sT -p-  {site}"
+]
+#Future looks like complete scan first and designate variables based on open ports
+#Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
+f.write(format_text('Response status_code is: ',r.status_code))
+print(format_text('Response status_code is: ',r.status_code))
+#f.write(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
+#print(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
+f.write(text_header('The Headers returned are: '))
+print(text_header('The Headers returned are: '))
+
+for header in headers:
+    if (header.upper() == 'CONTENT-SECURITY-POLICY'):
+        csp = headers[header].split(";")
+        f.write(format_text('', header))
+        print(format_text('', header))
+        for c in csp:
+            f.write(f"\t{c}")
+            print(f"\t{c}")
         else:
             (header.upper() != 'CONTENT-SECURITY-POLICY')
             head = headers[header].split(":")
@@ -148,15 +152,15 @@ with open(logpath, 'w') as f:
     print(format_text('\n\nCookies: \n',r.cookies)),
     f.write(format_text('HTML ',r.text)),
     print(format_text('HTML: ',r.text)),
-        #else:
-         #   f.write(f"{headers} : {headers[header]}")
-          #  print(f"{headers} : {headers[header]}")
-       #  for sCookie in sCookies:
-           #   print('sCookie name : '+sCookie.name)
-           #   print('sCookie value : '+sCookie.value)
-      #  for cookie in resp.cookies:
-            #  print('cookie name : ',[cookie.name](http://cookie.name/))
-             # print('cookie value : ',cookie.value)
+    #else:
+    #   f.write(f"{headers} : {headers[header]}")
+    #  print(f"{headers} : {headers[header]}")
+    #  for sCookie in sCookies:
+    #   print('sCookie name : '+sCookie.name)
+    #   print('sCookie value : '+sCookie.value)
+    #  for cookie in resp.cookies:
+    #  print('cookie name : ',[cookie.name](http://cookie.name/))
+    # print('cookie value : ',cookie.value)
     for cmd in cmds:
         f.write(f"\n\n Running: {cmd}")
         map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
@@ -165,7 +169,7 @@ with open(logpath, 'w') as f:
         f.write(output)
         print(output)
         print(f"\n\n(Complete:,{cmd}\n,{output}\n")
-        print(f"--------------------------------------")        
+        print(f"--------------------------------------")
         f.write(f"\n\n(Complete:,{cmd}\n,{output}\n")
         f.write(f"--------------------------------------")
     f.write(colored('**Scan Complete**','green'))

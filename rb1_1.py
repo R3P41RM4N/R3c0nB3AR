@@ -28,7 +28,7 @@ def text_header(respd):
     return text;
 
 
-def main():
+def bear():
     art1=text2art("R3c0nB3AR v1.1", font="standard")
     art2=(colored('''
     MMMMMMMMMMMWMMWNKXWMMMMMMMMMMMMMMMMMMMMM
@@ -73,6 +73,11 @@ def main():
     print(art2)
     print(art3+"\n\n\n")
 
+
+def main():
+    
+    bear()
+    
     raw_site_input = input(colored('Hello!, which site would you like to scan today?[Do not include http:// or https://]\n >>', "white"))
     site = str(raw_site_input).strip()
 

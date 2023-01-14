@@ -1,4 +1,4 @@
-        might be redundant but add subfinder... maybe in lieu of ffuf
+        subfinder
         ttps://github.com/gwen001/github-search/blob/master/github-subdomains.py
         add XSStrike (--crawl feature)
         add WPScan

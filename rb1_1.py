@@ -105,33 +105,26 @@ def main():
         #sCookies = r.cookies
     
     #scans to be performed:
-    cmds =[
-        #f"nmap -p 80,443,3389 --script http-bigip-cookie {site}",
-        #f"nmap -p 80,443,3389 --script http-headers {site}",
-        #f"nmap -p 80,443,3389 --script http-security-headers {site}",
-        #f"nmap -p 139,145 --script=smb-vuln* {site}",
-        # f"nmap -vv -p 139,145 --script=smb-server-stats.nse {site}",
-        # f"nmap -vv -p 139,145 --script=smb-brute.nse {site}",
-        #f"nmap -vv -p 139,145 --script=smb-double-pulsar-backdoor.nse {site}",
-        f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
+    cmds =[#for areas that require https:// or http:// .strip(https://) or http: (maybe an if/elif/else function)
         f"nmap -Pn -sC -T4 --reason {site}",
+        f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
         f"nmap -p {port} --script http-auth, {site}",
         f"nmap -p {port} --script http-auth-finder, {site}",
         f"nmap -p {port} --script http-ntlm-info {site}",
         f"nmap -p {port} --script http-aspnet-debug {site}",
         f"nmap -p {port} --script http-stored-xss {site}",
         f"nmap -p {port} --script http-methods {site}",
-        f"nmap -vv -sT -A -sV --reason --script=http-enum {site}",
-        f"nmap -vv -p 139,145 --script=smb-enum* {site}",
-        f"nmap -vv -p 139,145 --script=smb-os-discovery.nse {site}",
-        f"nmap -vv -p {port} --script=http-sitemap-generator.nse {site}",
+        f"nmap -sS -A -sV --reason --script=http-enum {site}",
+        f"nmap -p 139,145 --script=smb-enum* {site}",
+        f"nmap -p 139,145 --script=smb-os-discovery.nse {site}",
+        f"nmap -p {port} --script=http-sitemap-generator.nse {site}",
         f"nikto -p {port} -h {site}",
         f"hping3 -S {site} -c 15 -p {port}", #note to research this function further
         f"curl -k https://{site}/images",
         f"curl -k https://{site}/Images",
         f"curl -svk https://{site}/asdf",
-        f"dirb https://{site}/ /usr/share/wordlists/SecLists/Discovery/Web_Content/Top500-RobotsDisallowed.txt -S -l",
         f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
+        f"ffuf -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -u http://target.com/ -H "Host:FUZZ.{site}" -of md -o subdomain/fuzzing_dnsjhaddix.md",
         f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
         f"nmap -vv -sU -p-  {site}",
         f"nmap -vv -sT -p-  {site}"

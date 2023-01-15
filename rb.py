@@ -30,6 +30,10 @@ def text_header(respd):
 
 
 def main():
+
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+
     
     bear()
     

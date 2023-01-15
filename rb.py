@@ -36,17 +36,20 @@ def main():
 
     
     bear()
-    
+def target() =    
     raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "white"))
     site = str(raw_site_input).strip()
------------------------------------------------------------------------
-    raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
+    
+def method() =
+
+raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
     allPortsQ = str(raw_allPortsQ).strip()
     
     if allPortsQ.upper() == 'Y':
         return(cmd_allPorts)
+    
     elif: allPortsQ.upper() == 'N'
-        return(raw_port_input)
+        return(allPortsQ)
     else:
         print('that is not an option, please start over')
         exit()   
@@ -61,7 +64,7 @@ def main():
     proxies = configuration.proxies
     cmds = configuration.cmds
     site = configuration.site
-    
+    cmd_allPorts = configuration.allPorts
     #define r = get requests
     r = requests.get(f"{configuration.http + configuration.site}", proxies=proxies, verify=False)
 

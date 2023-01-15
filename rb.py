@@ -33,19 +33,22 @@ def main():
     
     bear()
     
-    raw_site_input = input(colored('Hello!, which site would you like to scan today?[Do not include http:// or https://]\n >>', "white"))
+    raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "white"))
     site = str(raw_site_input).strip()
 
     raw_port_input = input(colored('and which ports would you like to scan today?[separate each port by a ","]\n >>', "white"))
     port = str(raw_port_input).strip()
 
-    configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
-    proxies=configiration.proxies
-    cmds=configuration.cmds
+    # configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
+    configuration = Configuration(site, port)
+    proxies = configuration.proxies
+    cmds = configuration.cmds
+    site = configuration.site
     
     #define r = get requests
-    r = requests.get(f"https://{site}", proxies=proxies, verify=False)
+    r = requests.get(f"{configuration.http + configuration.site}", proxies=proxies, verify=False)
 
+    
     #Opening for the log path
     logpath = f"logs/{date.isoformat(date.today()).replace('-',' ')}_{site}.log"
 
@@ -61,25 +64,25 @@ def main():
         #r = s.get(f"https://{site}")
         #sCookies = r.cookies
     
-    #scans to be performed:
-    
-    #Future looks like complete scan first and designate variables based on open ports
-    #Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
-    f.write(format_text('Response status_code is: ',r.status_code))
-    print(format_text('Response status_code is: ',r.status_code))
-    #f.write(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
-    #print(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
-    f.write(text_header('The Headers returned are: '))
-    print(text_header('The Headers returned are: '))
+        #scans to be performed:
 
-    for header in headers:
-        if (header.upper() == 'CONTENT-SECURITY-POLICY'):
-            csp = headers[header].split(";")
-            f.write(format_text('', header))
-            print(format_text('', header))
-            for c in csp:
-                f.write(f"\t{c}")
-                print(f"\t{c}")
+        #Future looks like complete scan first and designate variables based on open ports
+        #Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
+        f.write(format_text('Response status_code is: ',r.status_code))
+        print(format_text('Response status_code is: ',r.status_code))
+        #f.write(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
+        #print(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
+        f.write(text_header('The Headers returned are: '))
+        print(text_header('The Headers returned are: '))
+
+        for header in headers:
+            if (header.upper() == 'CONTENT-SECURITY-POLICY'):
+                csp = headers[header].split(";")
+                f.write(format_text('', header))
+                print(format_text('', header))
+                for c in csp:
+                    f.write(f"\t{c}")
+                    print(f"\t{c}")
             else:
                 (header.upper() != 'CONTENT-SECURITY-POLICY')
                 head = headers[header].split(":")

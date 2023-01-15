@@ -36,11 +36,11 @@ def main():
 
     
     bear()
-def target() =    
+def target():    
     raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "white"))
     site = str(raw_site_input).strip()
     
-def method() =
+def method():
 
 raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
     allPortsQ = str(raw_allPortsQ).strip()
@@ -49,13 +49,13 @@ raw_allPortsQ = input(colored('Would you like to scan all ports first and then d
         return(cmd_allPorts)
     
     elif: allPortsQ.upper() == 'N'
-        return(allPortsQ)
+        return(method)
     else:
         print('that is not an option, please start over')
         exit()   
-    ---------------------------------------------------------------------
+    #---------------------------------------------------------------------
     
-    
+    def indv_ports() = 
     raw_port_input = input(colored('and which ports would you like to scan today?[separate each port by a ","]\n >>', "white"))
     port = str(raw_port_input).strip()
 

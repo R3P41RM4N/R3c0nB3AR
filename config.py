@@ -7,6 +7,8 @@ class Configuration:
         self.ports = ports
         self.proxies = proxies
         site = self.site.split(":")[0]
+        self.allPorts =[f"nmap -vv -sU -p-  {site}",
+            f"nmap -vv -sT -p-  {site}"]
         self.cmds =[
             f"nmap -Pn -sC -T4 --reason {site}",
             f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
@@ -27,6 +29,5 @@ class Configuration:
             f"curl -svk {self.http}{site}/asdf",
             #f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
             #f"ffuf -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -u http://target.com/ -H "Host:FUZZ.{site}" -of md -o subdomain/fuzzing_dnsjhaddix.md",
-            #f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
-            f"nmap -vv -sU -p-  {site}",
-            f"nmap -vv -sT -p-  {site}"]
+            #f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail"
+        ]

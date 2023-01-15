@@ -30,41 +30,42 @@ def text_header(respd):
 
 
 def main():
-
+  
     if not os.path.exists("logs"):
         os.makedirs("logs")
 
     
     bear()
-def target():    
+    #target designation
     raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "white"))
     site = str(raw_site_input).strip()
-    
-def method():
-
-raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
+    #all ports setting
+    raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
     allPortsQ = str(raw_allPortsQ).strip()
+    
+    #if/elif/else for all ports
+    allPortsQ = configuration.allPorts 
     
     if allPortsQ.upper() == 'Y':
         return(cmd_allPorts)
     
-    elif: allPortsQ.upper() == 'N'
+    elif allPortsQ.upper() == 'N':
         return(method)
     else:
-        print('that is not an option, please start over')
+        print('that is not an option, please try again')
         exit()   
+
     #---------------------------------------------------------------------
-    
-    def indv_ports() = 
     raw_port_input = input(colored('and which ports would you like to scan today?[separate each port by a ","]\n >>', "white"))
     port = str(raw_port_input).strip()
+    
+
 
     # configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
     configuration = Configuration(site, port)
     proxies = configuration.proxies
     cmds = configuration.cmds
     site = configuration.site
-    cmd_allPorts = configuration.allPorts
     #define r = get requests
     r = requests.get(f"{configuration.http + configuration.site}", proxies=proxies, verify=False)
 

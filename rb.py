@@ -11,6 +11,7 @@ from termcolor import colored, cprint
 from art import *
 from colorama import Fore, Back, Style
 from bear import bear
+from config import Configuration
 
 def format_text(title,item): #this is an autoformating feature for HTTP resposne data
     cr = '\r\n'
@@ -38,8 +39,10 @@ def main():
     raw_port_input = input(colored('and which ports would you like to scan today?[separate each port by a ","]\n >>', "white"))
     port = str(raw_port_input).strip()
 
-    #establish burp connection
-    proxies = {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"}
+    configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
+    proxies=configiration.proxies
+    cmds=configuration.cmds
+    
     #define r = get requests
     r = requests.get(f"https://{site}", proxies=proxies, verify=False)
 
@@ -59,30 +62,7 @@ def main():
         #sCookies = r.cookies
     
     #scans to be performed:
-    cmds =[#for areas that require https:// or http:// .strip(https://) or http: (maybe an if/elif/else function)
-        f"nmap -Pn -sC -T4 --reason {site}",
-        f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",
-        f"nmap -p {port} --script http-auth, {site}",
-        f"nmap -p {port} --script http-auth-finder, {site}",
-        f"nmap -p {port} --script http-ntlm-info {site}",
-        f"nmap -p {port} --script http-aspnet-debug {site}",
-        f"nmap -p {port} --script http-stored-xss {site}",
-        f"nmap -p {port} --script http-methods {site}",
-        f"nmap -sS -A -sV --reason --script=http-enum {site}",
-        f"nmap -p 139,145 --script=smb-enum* {site}",
-        f"nmap -p 139,145 --script=smb-os-discovery.nse {site}",
-        f"nmap -p {port} --script=http-sitemap-generator.nse {site}",
-        f"nikto -p {port} -h {site}",
-        f"hping3 -S {site} -c 15 -p {port}", #note to research this function further
-        f"curl -k https://{site}/images",
-        f"curl -k https://{site}/Images",
-        f"curl -svk https://{site}/asdf",
-        f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
-        f"ffuf -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -u http://target.com/ -H "Host:FUZZ.{site}" -of md -o subdomain/fuzzing_dnsjhaddix.md",
-        f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail",
-        f"nmap -vv -sU -p-  {site}",
-        f"nmap -vv -sT -p-  {site}"
-    ]
+    
     #Future looks like complete scan first and designate variables based on open ports
     #Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
     f.write(format_text('Response status_code is: ',r.status_code))

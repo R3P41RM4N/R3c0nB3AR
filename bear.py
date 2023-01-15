@@ -1,3 +1,6 @@
+from art import *
+from termcolor import colored, cprint
+
 def bear():
     art1=text2art("R3c0nB3AR v1.1", font="standard")
     art2=(colored('''

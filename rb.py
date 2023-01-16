@@ -34,23 +34,25 @@ def main():
     if not os.path.exists("logs"):
         os.makedirs("logs")
 
-    
+#-----------------Opening-------------    
     bear()
-    #target designation
+    
+    #target web address
     raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "white"))
     site = str(raw_site_input).strip()
-    #all ports setting
+    
+    #allPorts Scan First?
     raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
     allPortsQ = str(raw_allPortsQ).strip()
     
     #if/elif/else for all ports
-    allPortsQ = configuration.allPorts 
-    
+         
     if allPortsQ.upper() == 'Y':
-        return(cmd_allPorts)
+        cmd_allPorts()
     
     elif allPortsQ.upper() == 'N':
-        return(method)
+        pass()
+    
     else:
         print('that is not an option, please try again')
         exit()   
@@ -66,33 +68,31 @@ def main():
     proxies = configuration.proxies
     cmds = configuration.cmds
     site = configuration.site
-    #define r = get requests
+    allPortsQ = configuration.allPorts
     r = requests.get(f"{configuration.http + configuration.site}", proxies=proxies, verify=False)
-
+    headers = r.headers
     
     #Opening for the log path
     logpath = f"logs/{date.isoformat(date.today()).replace('-',' ')}_{site}.log"
 
     with open(logpath, 'w') as f:
+        
         f.write(colored("\nInitiating Recon Scan\n\n\n", "green"))
         print(colored("\nInitiating Recon Scan\n\n\n", "green"))
         #headers Scan functions
-        headers = r.headers
-        #cookies scan functions
-        #response = requests.get(f"https://{site}")
-        #cookies = response.cookies
-        #s = requests.Session()
-        #r = s.get(f"https://{site}")
-        #sCookies = r.cookies
-    
-        #scans to be performed:
+        
+
 
         #Future looks like complete scan first and designate variables based on open ports
         #Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
+        
+#-----------------Response Status Code------------------------         
         f.write(format_text('Response status_code is: ',r.status_code))
         print(format_text('Response status_code is: ',r.status_code))
-        #f.write(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
-        #print(format_text('headers are: ',r.headers)), #expiriment with a for loop for formatting
+        
+        #f.write(format_text('headers are: ',r.headers))/print(format_text('headers are: ',r.headers)), Only way to get them to print to document
+        
+#-----------------Header/CSP Begin------------------------        
         f.write(text_header('The Headers returned are: '))
         print(text_header('The Headers returned are: '))
 
@@ -112,19 +112,13 @@ def main():
                 for h in head:
                     f.write(f"\t{h}")
                     print(f"\t{h}")
-        f.write(format_text('\n\nCookies: \n',r.cookies)), #build in a session cookie request
+#--------------------------------Header/CSP End/ Cookie Pull start--------------- 
+
+        f.write(format_text('\n\nCookies: \n',r.cookies)),
         print(format_text('\n\nCookies: \n',r.cookies)),
         f.write(format_text('HTML ',r.text)),
         print(format_text('HTML: ',r.text)),
-        #else:
-        #   f.write(f"{headers} : {headers[header]}")
-        #  print(f"{headers} : {headers[header]}")
-        #  for sCookie in sCookies:
-        #   print('sCookie name : '+sCookie.name)
-        #   print('sCookie value : '+sCookie.value)
-        #  for cookie in resp.cookies:
-        #  print('cookie name : ',[cookie.name](http://cookie.name/))
-        # print('cookie value : ',cookie.value)
+#-------------------------------- Cookie Pull End/CMD Start---------------       
         for cmd in cmds:
             f.write(f"\n\n Running: {cmd}")
             map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
@@ -137,7 +131,7 @@ def main():
             f.write(f"\n\n(Complete:,{cmd}\n,{output}\n")
             f.write(f"--------------------------------------")
         f.write(colored('**Scan Complete**','green'))
-
+#-------------------------------- Cookie Pull End/CMD Start---------------      
 
 if __name__ == "__main__":
     main()

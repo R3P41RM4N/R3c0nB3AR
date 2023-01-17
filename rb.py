@@ -95,7 +95,7 @@ def main():
 #-----------------Header/CSP Begin------------------------        
         f.write(text_header('The Headers returned are: '))
         print(text_header('The Headers returned are: '))
-http://host1.metaproblems.com:4500/
+
         for header in headers:
             if (header.upper() == 'CONTENT-SECURITY-POLICY'):
                 csp = headers[header].split(";")

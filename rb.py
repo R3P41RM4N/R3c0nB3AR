@@ -27,9 +27,9 @@ def text_header(respd):
     respd = str(respd)
     text = Style.BRIGHT + Fore.GREEN + cr+ respd + Fore.RESET
     return text;
-        #----------------Targeted Ports----------------------
+
 def targetPorts():
-    raw_port_input = input(colored('which ports would you like to focus your scans on today?[separate each port by a ","]\n >>', "white"))
+    raw_port_input = input(colored('which ports would you like to focus your scans on today?[separate each port by a ","]\n >>', "cyan"))
     port = str(raw_port_input).strip()
 
 def main():
@@ -37,45 +37,48 @@ def main():
     if not os.path.exists("logs"):
         os.makedirs("logs")
         
-    #target web address
-
+    #-----------------Opening-------------    
     bear()
 
-    raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "white"))
+    raw_site_input = input(colored('Hello!, which site would you like to scan today?[Include http:// or https://]\n >>', "cyan"))
     site = str(raw_site_input).strip()
 
-    #-----------------Opening-------------    
+    def fullscan():
+        allPorts =[f"nmap -vv -sU -p-  {site}", f"nmap -vv -sT -p-  {site}"]
+        raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
+        allPortsQ = str(raw_allPortsQ).strip()
+
+        if allPortsQ == 'Y':
+            print("Hell Yeah! Spray and Pray Baby!!!")
+            for cmd in allPorts:
+                print(f"\n\n Running: {cmd}")
+                map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
+                output, err = map.communicate()
+                allPort_Results = output.decode('ascii')
+        #       f.write(output)
+                print(output)   
+            print(f"\n\n(Complete:,{cmd}\n,{output}\n")
+            print(f"--------------------------------------")
+        #        f.write(f"\n\n(Complete:,{cmd}\n,{output}\n")
+        #        f.write(f"--------------------------------------")
+            targetPorts()
+
+        else: 
+            allPortsQ != 'Y'
+
+            if allPortsQ == 'N':
+                print("Moving to a more surgical strike...")
+                targetPorts()
+            else:
+                print(colored('!error! invalid input, please try again using a Y or an N', "red"))
+                fullscan()              
     
-    raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
-    allPortsQ = str(raw_allPortsQ).strip()
-
-    allPorts =[f"nmap -vv -sU -p-  {site}", f"nmap -vv -sT -p-  {site}"]
-        
-    if allPortsQ == 'Y':
-        for cmd in allPorts:
-            print(f"\n\n Running: {cmd}")
-            map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-            output, err = map.communicate()
-            allPort_Results = output.decode('ascii')
-    #       f.write(output)
-            print(output)   
-        print(f"\n\n(Complete:,{cmd}\n,{output}\n")
-        print(f"--------------------------------------")
-    #        f.write(f"\n\n(Complete:,{cmd}\n,{output}\n")
-    #        f.write(f"--------------------------------------")
-        targetPorts()
-                        
-    else: 
-        allPortsQ != 'Y'
-        print("moving to a more surgical process....")
-        targetPorts()
-
-        #----------------------------------------------------
     # configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
     configuration = Configuration(site, port)
     proxies = configuration.proxies
     cmds = configuration.cmds
-    site = configuration.site
+    port = configuration.ports
+    site = configuration.site 
     r = requests.get(f"{configuration.http + configuration.site}", proxies=proxies, verify=False)
     headers = r.headers
     

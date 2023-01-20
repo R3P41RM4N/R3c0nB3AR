@@ -28,5 +28,4 @@ class Configuration:
             f"curl -svk {self.http}{site}/asdf",
             #f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
             #f"ffuf -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -u http://target.com/ -H "Host:FUZZ.{site}" -of md -o subdomain/fuzzing_dnsjhaddix.md",
-            #f"feroxbuster -u https://{site} --filter-status 400,404,302,301 --extract-links --auto-bail"
         ]

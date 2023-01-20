@@ -7,9 +7,7 @@ class Configuration:
         self.ports = ports
         self.proxies = proxies
         site = self.site.split(":")[0]
-        
-        self.allPorts =[f"nmap -vv -sU -p-  {site}", 
-                        f"nmap -vv -sT -p-  {site}"]
+
         self.cmds =[
             f"nmap -Pn -sC -T4 --reason {site}",
             f"nmap -Pn -T4 --script ssl-enum-ciphers --reason {site}",

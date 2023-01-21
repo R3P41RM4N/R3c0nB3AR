@@ -52,7 +52,7 @@ def main():
     allPorts =[f"nmap -vv -sU -p-  {site}", f"nmap -vv -sT -p- {site}"]
     
     if allPortsQ == 'Y':
-        print("Hell Yeah! Spray and Pray Baby!!!"
+        print("Hell Yeah! Spray and Pray Baby!!!")
         for cmd in allPorts:
             print(f"\n\n Running: {cmd}")
             map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)

@@ -1,5 +1,10 @@
 #!/usr/bin/python
-
+#Reconbear is a web application reconaissance tool. The purpose is to automate the opening tasks of a Web Application Penetration Test.
+#The tools integrated into this application should provide a unique perspective on what is being scanned. The goal is to minimize duplicate
+#efforts. #The focus should be: Port Enumeration, backend server and front end applications identified if possible. Review of authentication, ntlm, potential
+#debugging opportunities, reviewing methods, reviewing potential leads on XSS, fuzzing common extensions both infront of the URL and behind (FUzz.URL/URL.FUZZ)
+#all this gets outputed into an easy to read/review report. which helps with pulling out artifacts.
+#The ultimate goal is to make this app modular (which it sort of is) to ultimately improve on the initial design.
 import os
 import re
 import string

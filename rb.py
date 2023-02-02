@@ -18,7 +18,7 @@ from colorama import Fore, Back, Style
 from bear import bear
 from config import Configuration
 
-def format_text(title,item): #this is an autoformating feature for HTTP resposne data
+def format_text(title,item): #this is an autoformating feature for HTTP response data
     cr = '\r\n'
     section_break = cr + "*"*40 + cr
     item = str(item)
@@ -26,14 +26,14 @@ def format_text(title,item): #this is an autoformating feature for HTTP resposne
     return text;allPorts =[f"nmap -vv -sU -p-  {site}", f"nmap -vv -sT -p- {site}"]
 
 
-def text_header(respd):
+def text_header(respd): #this autoformats the headers
     cr = '\r\n'
     section_break = cr + "*"*40
     respd = str(respd)
     text = Style.BRIGHT + Fore.GREEN + cr+ respd + Fore.RESET
     return text;
 
-def targetPorts():
+def targetPorts(): #target ports is for deeper scans if you know which ports are of interest to you.
     raw_port_input = input(colored('which ports would you like to focus your scans on today?[separate each port by a ","]\n >>', "cyan"))
     return str(raw_port_input).strip()
 
@@ -42,7 +42,7 @@ def main():
   
     if not os.path.exists("logs"):
         os.makedirs("logs")
- 
+ #if the logs path does not exist, the app will make one.
 
 
     #-----------------Opening-------------    
@@ -53,12 +53,15 @@ def main():
     site = site.replace("http://", "").replace("https://", "")
     
     raw_allPortsQ = input(colored('Would you like to scan all ports first and then designate target ports?\n(Y/N)', "cyan"))
+#As it currently works, RB will scann all ports with this feature and then once it is complete, prompt the user which ports would they like to focus on
+#Potential Upgrade Idea: build out variables which then flow into the main application without user intervention.
+
     allPortsQ = str(raw_allPortsQ).strip()
     
-    allPorts =[f"nmap -vv -sU -p-  {site}", f"nmap -vv -sT -p- {site}"]
+    allPorts =[f"nmap -vv -sT -Pn -p- -T4{site}",f"nmap -vv -sU -p- -Pn -T4 {site}"]
     
     if allPortsQ == 'Y':
-        print("Hell Yeah! Spray and Pray Baby!!!")
+        print("")
         for cmd in allPorts:
             print(f"\n\n Running: {cmd}")
             map = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
@@ -75,10 +78,10 @@ def main():
     else: 
         allPortsQ != 'Y'
         if allPortsQ == 'N':
-            print("Moving to a more surgical strike...")
+            print("*****Moving on to the next step*****")
             port = targetPorts()
         else:
-            print('invalid input,')
+            print('invalid input,print a Y or N for yes or no')
             port = fullscan()              
     
     # configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
@@ -99,9 +102,8 @@ def main():
         f.write(colored("\nInitiating Recon Scan\n\n\n", "green"))
         print(colored("\nInitiating Recon Scan\n\n\n", "green"))
 
-            #headers Scan functions
-            #Future looks like complete scan first and designate variables based on open ports
-            #Then they wouldn't have to specify ports. Research how to designate results as new variables in Python.
+            #The intent with this section of the script is to pull as much information as possible from the header data before ever
+            #manipulating the application. 
             
             #-----------------Response Status Code------------------------         
         f.write(format_text('Response status_code is: ',r.status_code))
@@ -135,6 +137,8 @@ def main():
         print(format_text('HTML: ',r.text)),
             
             #----------------- Cookie Pull End/CMD Start---------------
+            #this section runs through all the commands in config.py. this is apart of the modular features of Reconbear.
+            #Maybe in the future we have different "configurations" for different types of actions.
 
         for cmd in cmds:
             f.write(f"\n\n Running: {cmd}")

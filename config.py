@@ -26,6 +26,9 @@ class Configuration:
             f"curl -k {self.http}{site}/images",
             f"curl -k {self.http}{site}/Images",
             f"curl -svk {self.http}{site}/asdf",
-            f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
-            f"ffuf -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -u http://target.com/ -H "Host:FUZZ.{site}" -of md -o subdomain/fuzzing_dnsjhaddix.md",
+            f"gobuster fuzz -r -w /usr/share/wordlists/SecLists/Discovery/Web_Content/common.txt -u https://{site}/FUZZ",
+            f"gobuster fuzz -r -w /usr/share/wordlists/SecLists/Discovery/Web_Content/common.txt -u https://FUZZ.{site}",
+            
+            #f"ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/deepmagic.com_top50kprefixes.txt -u https://{site}/FUZZ -c -v -fc 404,302,301",
+            #f"ffuf -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -u http://target.com/ -H "Host:FUZZ.{site}" -of md -o subdomain/fuzzing_dnsjhaddix.md",
         ] 

@@ -82,7 +82,7 @@ def main():
             port = targetPorts()
         else:
             print('invalid input,print a Y or N for yes or no')
-            port = fullscan()              
+            port = raw_allPortsQ()             
     
     # configuration = Configuration(site, port, {"http":"http://127.0.0.1:8080","https": "http://127.0.0.1:8080"})
     configuration = Configuration(site, port)

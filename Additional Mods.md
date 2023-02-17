@@ -5,4 +5,5 @@
         add WPScan
         add eyewitness
         add msdorkdump.py
+        add sublist3r
 

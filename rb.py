@@ -58,7 +58,7 @@ def main():
 
     allPortsQ = str(raw_allPortsQ).strip()
     
-    allPorts =[f"nmap -vv -sT -Pn -p- -T4{site}",f"nmap -vv -sU -p- -Pn -T4 {site}"]
+    allPorts =[f"nmap -vv -sT -Pn -p- -T4 {site}",f"nmap -vv -sU -p- -Pn -T4 {site}"]
     
     if allPortsQ == 'Y':
         print("")

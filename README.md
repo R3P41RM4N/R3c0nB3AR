@@ -3,7 +3,7 @@
 ## Welcome to Recon Bear.
 ## Recon Bear is a web application reconaissance tool. 
 
-###The purpose is to automate the opening tasks of a Web Application Penetration Test. This application primarily integrates other tools via python and connects the results via a singular log-file output. 
+### The purpose is to automate the opening tasks of a Web Application Penetration Test. This application primarily integrates other tools via python and connects the results via a singular log-file output. 
 
 ### The current development focus is on the following: port enumeration, backend/frontend application fingerprinting, cryptography review, initial vulnerability assessments, potential debugging opportunities, HTTP methods, Identifying possible XSS input areas, and fuzzing common extensions both infront of the URL and behind (FUzz.URL/URL.FUZZ). 
 

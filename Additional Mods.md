@@ -10,6 +10,7 @@
         Explore *******************
         https://github.com/projectdiscovery/httpx
         https://github.com/gwen001/github-search/blob/master/github-subdomains.py
+        amass
         
         ****************Review Code and integrate functions into CLI?**********************
         https://github.com/zseano/InputScanner
